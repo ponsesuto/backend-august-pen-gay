@@ -9,7 +9,7 @@ exports.getReservations = async (req, res, next) => {
   try {
     let filter = {};
 
-    // ถ้าเป็น user ธรรมดา → ดูได้เฉพาะของตัวเอง
+    // ถ้าเป็น user ธรรมดา → ดูได้เฉพาะของตัวเอง (ถ้าเป็น admin จะไม่มี filter นี้ ทำให้ดึงข้อมูลทุกคน)
     if (req.user.role !== "admin") {
       filter.user = req.user.id;
     }
@@ -26,10 +26,16 @@ exports.getReservations = async (req, res, next) => {
       };
     }
 
-    const reservations = await Reservation.find(filter).populate({
-      path: 'coworking',
-      select: 'name address telephone openTime closeTime'
-    });
+    // 🟢 แก้ไขตรงนี้: เพิ่มการ populate('user') และเพิ่ม type ของ coworking
+    const reservations = await Reservation.find(filter)
+      .populate({
+        path: 'coworking',
+        select: 'name type address telephone openTime closeTime' 
+      })
+      .populate({
+        path: 'user',
+        select: 'name _id' // 🟢 ทำให้ Admin เห็นชื่อ User ใน Frontend ได้
+      });
 
     res.status(200).json({
       success: true,
@@ -51,9 +57,14 @@ exports.getReservations = async (req, res, next) => {
 //@access  Private
 exports.getReservation = async (req, res, next) => {
   try {
-    const reservation = await Reservation.findById(req.params.id).populate({
+    const reservation = await Reservation.findById(req.params.id)
+      .populate({
         path: 'coworking',
-        select: 'name address telephone openTime closeTime'
+        select: 'name type address telephone openTime closeTime'
+      })
+      .populate({
+        path: 'user',
+        select: 'name _id'
       });
 
     if (!reservation) {
@@ -202,6 +213,7 @@ exports.deleteReservation = async (req, res, next) => {
     });
   }
 };
+
 exports.checkAvailability = async (req, res, next) => {
   try {
     const { date } = req.body;
@@ -240,6 +252,7 @@ exports.checkAvailability = async (req, res, next) => {
     });
   }
 };
+
 exports.deleteAllReservations = async (req, res, next) => {
   try {
 

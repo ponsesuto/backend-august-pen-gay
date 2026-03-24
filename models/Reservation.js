@@ -5,6 +5,21 @@ const ReservationSchema = new mongoose.Schema({
         type: Date,
         required: true
     },
+    // 🟢 เพิ่มฟิลด์ startTime เข้ามา
+    startTime: {
+        type: String, 
+        required: true
+    },
+    // 🟢 เพิ่มฟิลด์ endTime เข้ามา
+    endTime: {
+        type: String,
+        required: true
+    },
+    // 🟢 เพิ่มฟิลด์ desk สำหรับเก็บหมายเลขโต๊ะ (ถ้าจำเป็นต้องบังคับเลือกโต๊ะ ให้ใส่ required: true)
+    desk: {
+        type: String,
+        required: true
+    },
     user: {
         type: mongoose.Schema.ObjectId,
         ref: 'User',
@@ -19,8 +34,6 @@ const ReservationSchema = new mongoose.Schema({
         type: Date,
         default: Date.now
     }
-    
 });
-
 
 module.exports = mongoose.model('Reservation', ReservationSchema);

@@ -24,6 +24,24 @@ const CoworkingSchema = new mongoose.Schema(
         closeTime: {
             type: String,
             required: [true, 'Please add a close time (e.g., 20:00)']
+        },
+         // ✅ เพิ่ม
+        price_per_hour: { type: Number, required: true },
+
+        // ✅ เพิ่ม rating
+        rating: { type: Number, default: 0, min: 0, max: 5 },
+
+        // ✅ เพิ่ม status
+        status: {
+            type: String,
+            enum: ["available", "unavailable", "maintenance"],
+            default: "available"
+        },
+        // ✅ เพิ่ม type
+        type: {
+            type: String,
+            enum: ["desk", "room", "meeting", "private"],
+            required: true
         }
     },
     {
@@ -33,9 +51,9 @@ const CoworkingSchema = new mongoose.Schema(
 );
 
 CoworkingSchema.virtual('reservations', {
-    ref: 'Reservation', 
-    localField: '_id',       
-    foreignField: 'coworking', 
+    ref: 'Reservation',
+    localField: '_id',
+    foreignField: 'coworking',
     justOne: false
 });
 

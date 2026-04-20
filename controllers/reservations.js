@@ -31,7 +31,7 @@ exports.getReservations = async (req, res, next) => {
     const reservations = await Reservation.find(filter)
       .populate({
         path: 'coworking',
-        select: 'name type address telephone openTime closeTime' 
+        select: 'name type address telephone openTime closeTime price_per_hour' 
       })
       .populate({
         path: 'user',
@@ -45,7 +45,6 @@ exports.getReservations = async (req, res, next) => {
     });
 
   } catch (error) {
-    console.log(error);
     return res.status(500).json({
       success: false,
       message: "Cannot find Reservation"
@@ -81,7 +80,6 @@ exports.getReservation = async (req, res, next) => {
     });
 
     } catch (error) {
-      console.log(error);
       return res.status(500).json({
       success: false,
       message: "Cannot find Reservation"
@@ -125,7 +123,6 @@ exports.addReservation = async (req, res, next) => {
         });
 
     } catch (err) {
-        console.log(err.stack);
         res.status(500).json({
             success: false,
             message: "Cannot create Reservation"
@@ -169,7 +166,6 @@ exports.updateReservation = async (req, res, next) => {
     });
 
   } catch (error) {
-    console.log(error);
     return res.status(500).json({
       success: false,
       message: "Cannot update Reservation"
@@ -207,7 +203,6 @@ exports.deleteReservation = async (req, res, next) => {
     });
 
   } catch (error) {
-    console.log(error);
     return res.status(500).json({
       success: false,
       message: "Cannot delete Reservation"
@@ -222,7 +217,6 @@ exports.checkAvailability = async (req, res, next) => {
     const coworking = await Coworking.findById(req.params.coworkingId);
 
     if (!coworking) {
-      console.log("Coworking not found");
       return res.status(404).json({
         success: false,
         message: "Coworking not found"
@@ -398,7 +392,6 @@ exports.getDashboardStats = async (req, res, next) => {
     });
 
   } catch (error) {
-    console.error('Dashboard Stats Error:', error);
     res.status(500).json({ success: false, message: 'Server Error on Dashboard Stats' });
   }
 };

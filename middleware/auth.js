@@ -19,23 +19,20 @@ exports.protect = async (req, res, next) => {
     }
 
     try {
-        
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
-        console.log(decoded);
         req.user = await User.findById(decoded.id);
         if (!req.user) {
-            return res.status(401).json({ 
-                success: false, 
-                msg: 'No user found with this id' 
+            return res.status(401).json({
+                success: false,
+                msg: 'No user found with this id'
             });
         }
 
         next();
     } catch (err) {
-        console.log(err.stack);
-        return res.status(401).json({ 
-            success: false, 
-            msg: 'Not authorize to access this route' 
+        return res.status(401).json({
+            success: false,
+            msg: 'Not authorize to access this route'
         });
     }
 };

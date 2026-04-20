@@ -25,7 +25,6 @@ exports.register = async (req, res, next) => {
 
     } catch(err) {
         res.status(400).json({ success: false });
-        console.log(err.stack);
     }
 };
 
@@ -135,7 +134,6 @@ exports.getUsers = async (req, res, next) => {
       data: users
     });
   } catch (error) {
-    console.log(error);
     res.status(500).json({ success: false, message: 'Server Error' });
   }
 };

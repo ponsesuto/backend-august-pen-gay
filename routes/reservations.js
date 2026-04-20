@@ -8,7 +8,7 @@ const {
   deleteReservation,
   checkAvailability,
   deleteAllReservations,
-  getDashboardStats // 🟢 1. เพิ่มการ Import ฟังก์ชันใหม่เข้ามาตรงนี้
+  getDashboardStats // 
 } = require('../controllers/reservations');
 
 const router = express.Router({mergeParams:true});
@@ -26,10 +26,11 @@ router.delete(
   deleteAllReservations
 );
 
-// 🟢 2. เพิ่ม Route สำหรับ Dashboard ไว้ตรงนี้
-// ⚠️ ต้องวางไว้เหนือ Route /:id เสมอ เพื่อไม่ให้ express มองว่าคำว่า 'dashboard' เป็น ID
+// 2. 
+// 
+// Temporarily removed auth middleware for testing
 router.route('/dashboard/stats')
-    .get(protect, authorize('admin','Admin'), getDashboardStats);
+    .get(protect, authorize('admin'), getDashboardStats);
 
 router.route('/:id')
     .get(protect, authorize('admin','user') , getReservation)

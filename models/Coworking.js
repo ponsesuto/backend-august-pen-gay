@@ -49,6 +49,12 @@ const CoworkingSchema = new mongoose.Schema(
             type: String,
             enum: ["desk", "room", "meeting", "private"],
             required: true
+        },
+        
+        // 🟢 เพิ่มฟิลด์สำหรับ Soft Delete
+        isDeleted: {
+            type: Boolean,
+            default: false
         }
     },
     {

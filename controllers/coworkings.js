@@ -49,8 +49,9 @@ exports.createCoworking = async (req, res, next) => {
 //@access   Private (Admin)
 exports.updateCoworking = async (req, res, next) => {
     try {
+        // 🟢 แก้ Warning โดยเปลี่ยนคำว่า `new: true` เป็น `returnDocument: 'after'`
         const coworking = await Coworking.findByIdAndUpdate(req.params.id, req.body, {
-            new: true,
+            returnDocument: 'after', 
             runValidators: true
         });
         if (!coworking) {

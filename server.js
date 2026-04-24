@@ -68,7 +68,23 @@ const swaggerOptions = {
         // 🌟 แก้ไข: เพิ่มการรองรับ URL จาก Environment Variable (สำหรับ Render) และมี localhost เป็นตัวสำรอง
         url: process.env.API_URL || 'http://localhost:5000/api/v1'
       }
-    ]
+    ],
+    // 👇 --- สิ่งที่เพิ่มเข้ามาเพื่อให้มีปุ่ม Authorize (ใส่ Token) --- 👇
+    components: {
+      securitySchemes: {
+        bearerAuth: {
+          type: 'http',
+          scheme: 'bearer',
+          bearerFormat: 'JWT',
+        },
+      },
+    },
+    security: [
+      {
+        bearerAuth: [],
+      },
+    ],
+    // 👆 ---------------------------------------------------- 👆
   },
   apis: ['./routes/*.js'], 
 };

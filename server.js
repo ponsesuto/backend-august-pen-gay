@@ -65,11 +65,11 @@ const swaggerOptions = {
     },
     servers: [
       {
-        // 🌟 แก้ไข: เพิ่มการรองรับ URL จาก Environment Variable (สำหรับ Render) และมี localhost เป็นตัวสำรอง
-        url: process.env.API_URL || 'http://localhost:5000/api/v1'
+        // แก้ไข: ใช้ Environment Variable หรือ detect URL จาก request
+        url: process.env.API_URL || (process.env.NODE_ENV === 'production' ? 'https://backend-august-pen-gay.onrender.com/api/v1' : 'http://localhost:5000/api/v1')
       }
     ],
-    // 👇 --- สิ่งที่เพิ่มเข้ามาเพื่อให้มีปุ่ม Authorize (ใส่ Token) --- 👇
+    // สิ่งที่เพิ่มเข้ามาเพื่อให้มีปุ่ม Authorize (ใส่ Token)
     components: {
       securitySchemes: {
         bearerAuth: {
